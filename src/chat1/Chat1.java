@@ -11,9 +11,7 @@ import javax.swing.JOptionPane;
 
 public class Chat1 {
 
-   public static int bucle=1;
-   public static String text;
-   public static String leer;
+   
     
     public static void main(String[] args) throws InterruptedException, IOException {
        
@@ -28,11 +26,30 @@ public class Chat1 {
             PrintStream os = new PrintStream(clienteSocket.getOutputStream());
             
             
-            text = JOptionPane.showInputDialog("(C)Escribe un mensaje");
-           
-            System.out.println(text);
-                        
             
+            String mensaje = JOptionPane.showInputDialog("(CL)Introduce el mensaje");
+            
+            System.out.println("Mensaje del cliente "+mensaje);
+            os.println(mensaje);
+            os.flush();
+            
+            String entradaServ;
+            
+            while ((entradaServ=is.readLine())!=null){
+                System.out.println("Mensaje del servidor : "+entradaServ);
+                mensaje = JOptionPane.showInputDialog("Introduzca el mensaje del Cliente");
+                os.println(mensaje);
+                System.out.println("Mensaje del cliente: "+mensaje);
+                os.flush();
+            
+            
+                if (mensaje.equals("cerrar")){
+                    break;
+                }
+            }            
+            os.close();
+            is.close();
+            clienteSocket.close();
             
             }catch (IOException e) {
                     e.printStackTrace();
